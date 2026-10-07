@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = (typeof window !== 'undefined' && window.location.hostname === 'localhost' && window.location.port === '3000')
+  ? 'http://localhost:5000/api'
+  : (import.meta.env.VITE_API_URL || '/api');
 
 class ApiClient {
   getToken() {

@@ -82,6 +82,18 @@ app.get(['/download', '/download-project', '/api/download/project'], (req, res) 
   res.status(404).json({ error: 'Project archive not found.' });
 });
 
+// Serve frontend static build on Render production deployment
+const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/download')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {

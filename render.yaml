@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: vitacare-ai
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health-check
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
