@@ -86,11 +86,12 @@ app.get(['/download', '/download-project', '/api/download/project'], (req, res) 
 const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
 if (fs.existsSync(frontendDist)) {
   app.use(express.static(frontendDist));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/download')) {
-      return next();
+  // Express 5 compatible SPA fallback
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads') && !req.path.startsWith('/download')) {
+      return res.sendFile(path.join(frontendDist, 'index.html'));
     }
-    res.sendFile(path.join(frontendDist, 'index.html'));
+    next();
   });
 }
 
