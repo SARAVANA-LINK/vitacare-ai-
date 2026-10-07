@@ -4,11 +4,21 @@
   "private": true,
   "description": "VitaCare AI - Intelligent Health Companion & Adherence Platform",
   "scripts": {
-    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build",
     "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build",
     "start": "node backend/server.js",
     "start:backend": "node backend/server.js",
     "dev:backend": "cd backend && node server.js",
     "dev:frontend": "cd frontend && npm run dev"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "pdf-parse": "^2.4.5",
+    "tesseract.js": "^7.0.0"
   }
 }
